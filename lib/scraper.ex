@@ -1,7 +1,7 @@
 defmodule Scraper do
   def scrape_web_page(url) when is_bitstring(url) do
-    HTTPoison.get!("https://api.github.com")
-    |> IO.puts
+    HTTPoison.get!("#{url}")
+    |> IO.inspect
   end
 
   def scrape_web_page(_), do: IO.puts "Error, check input"
