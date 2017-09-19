@@ -9,7 +9,7 @@ defmodule Scraper do
 
   defp crawl(url, titles \\ %{}) when is_bitstring(url) do
     case HTTPoison.get(url, [], []) do
-      {:ok, %{body: body, headers: _, status_code: 200}} ->
+      {:ok, %{body: body, status_code: 200}} ->
         title = body
         |> Floki.find("title")
         |> List.last
@@ -17,6 +17,13 @@ defmodule Scraper do
         |> List.last
 
         if (titles[url] == nil) do
+          WebScrape.Repo.insert!(%WebScrape.Page{
+            url: url,
+            title: title,
+            inserted_at: Ecto.DateTime.utc,
+            updated_at: Ecto.DateTime.utc}
+          )
+
           titles = Map.put(titles, url, title)
           IO.inspect("#{url}, #{title}")
 

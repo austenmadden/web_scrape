@@ -4,7 +4,7 @@ defmodule WebScrape.Mixfile do
   def project do
     [app: :web_scrape,
      version: "0.1.0",
-     elixir: "~> 1.3",
+     elixir: "~> 1.5.1",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      escript: [main_module: WebScrape],
@@ -15,7 +15,8 @@ defmodule WebScrape.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :floki, :httpoison]]
+    [applications: [:logger, :floki, :httpoison, :postgrex, :ecto],
+     mod: {WebScrape, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -28,6 +29,11 @@ defmodule WebScrape.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    [{:floki, "~> 0.17.0"}, {:httpoison, "~> 0.11.2"}]
+    [
+      {:floki, "~> 0.18.0"},
+      {:httpoison, "~> 0.13.0"},
+      {:postgrex, ">= 0.0.0"} ,
+      {:ecto, "~> 2.2.4"}
+    ]
   end
 end

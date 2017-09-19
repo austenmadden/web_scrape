@@ -1,4 +1,17 @@
 defmodule WebScrape do
+  use Application
+
+  def start(_type, _args) do
+    import Supervisor.Spec, warn: false
+
+    children = [
+      worker(WebScrape.Repo, [])
+    ]
+
+    opts = [strategy: :one_for_one, name: WebScrape.Supervisor]
+    Supervisor.start_link(children, opts)
+  end
+
   def main(args) do
     args |> parse_args |> process
   end
