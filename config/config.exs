@@ -28,9 +28,12 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+#
+
+config :web_scrape,
+  ecto_repos: [WebScrape.Repo]
 
 config :web_scrape, WebScrape.Repo,
-  adapter: Ecto.Adapters.Postgres,
   database: "web_scrape",
   username: "postgres",
   password: "postgres",

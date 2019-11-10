@@ -8,6 +8,8 @@ defmodule Scraper do
   def scrape_web_page, do: IO.puts "Error, requires url"
 
   defp crawl(url, titles \\ %{}) when is_bitstring(url) do
+    import NaiveDateTime, only: [utc_now: 0, truncate: 2]
+
     case HTTPoison.get(url, [], []) do
       {:ok, %{body: body, status_code: 200}} ->
         title = body
@@ -17,11 +19,13 @@ defmodule Scraper do
         |> List.last
 
         if (titles[url] == nil) do
+          now = utc_now() |> truncate(:second)
+
           WebScrape.Repo.insert!(%WebScrape.Page{
             url: url,
             title: title,
-            inserted_at: Ecto.DateTime.utc,
-            updated_at: Ecto.DateTime.utc}
+            inserted_at: now,
+            updated_at: now}
           )
 
           titles = Map.put(titles, url, title)

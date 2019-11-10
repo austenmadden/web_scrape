@@ -3,8 +3,8 @@ defmodule WebScrape.Repo.Migrations.CreatePages do
 
   def change do
     create table(:pages) do
-      add :url,   :string
-      add :title, :string
+      add :url,   :string, size: 1024
+      add :title, :string,  size: 1024
 
       timestamps()
     end
